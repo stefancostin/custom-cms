@@ -22,6 +22,9 @@
                     }
                 ?>
                 <li>
+                    <a href="admin">Admin</a>
+                </li>
+                <!-- <li>
                     <a href="#">About</a>
                 </li>
                 <li>
@@ -29,7 +32,7 @@
                 </li>
                 <li>
                     <a href="#">Contact</a>
-                </li>
+                </li> -->
             </ul>
         </div>
         <!-- /.navbar-collapse -->
