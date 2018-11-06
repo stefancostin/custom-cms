@@ -1,0 +1,9 @@
+.error {
+    font-size: 12px;
+    color: #ff0000;
+    margin-top: 10px;
+}
+.action-danger,
+a.action-danger {
+    color: #ff0000;
+}

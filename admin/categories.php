@@ -47,13 +47,23 @@
                                     <input type="text" class="form-control" name="cat_title" id="cat_title">
                                 </div>
                                 <input type="submit" class="btn btn-primary" name="submit" value="Add Category">
-                                <?= "<br/>" . $input_empty_error ?>
+                                <p class="error"><?= $input_empty_error ?></p>
                             </form>
                         </div>
                         <!-- /.col-xs-6 -->
                         <?php
+                            // Add Category
                             $sql = "SELECT * FROM categories";
                             $select_categories = mysqli_query($connection, $sql);
+
+                            // Delete Category
+                            if(isset($_GET['delete'])) {
+                                $category_id = $_GET['delete'];
+                                $sql = "DELETE FROM categories WHERE cat_id = '$category_id'";
+                                $delete_category = mysqli_query($connection, $sql);
+                                // Refresh the page:
+                                header("Location: categories.php");
+                            }
                         ?>
                         <!-- right column -->
                         <div class="col-xs-6">
@@ -62,6 +72,7 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Categories</th>
+                                        <th><!--Empty--></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,6 +80,7 @@
                                     <tr>
                                         <td><?= $record['cat_id'] ?></td>
                                         <td><?= $record['cat_title'] ?></td>
+                                        <td><a href="categories.php?delete= <?= $record['cat_id'] ?>" class="action-danger">Delete</a></td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
