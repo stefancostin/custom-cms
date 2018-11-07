@@ -1,48 +1,10 @@
 <?php include "./includes/admin_header.php"; ?>
+<?php include "functions.php"; ?>
 <?php
-    // Add Category
-    $input_empty_error = "";
-    if(isset($_POST['submit'])) {
-        $category_title = $_POST['cat_title'];
-
-        if($category_title == "" || empty($category_title)) {
-            $input_empty_error = "This field should not be empty.";
-        } else {
-            $category_title = mysqli_real_escape_string($connection, $category_title);
-            $sql = "INSERT INTO categories(cat_title) VALUES ('$category_title')";
-            $query = mysqli_query($connection, $sql);
-            if(!$query) {
-                die("Query Failed " . mysqli_error());
-            }
-        }
-    }
-
-    // Show Categories
-    $sql = "SELECT * FROM categories";
-    $select_categories = mysqli_query($connection, $sql);
-
-    // Update Category
-    if(isset($_GET['edit_id']) && isset($_GET['edit_title'])) {
-        $edit_category_id = $_GET['edit_id'];
-        $edit_category_title = $_GET['edit_title'];
-        
-        if(isset($_POST['edit'])) {
-            $update_category = $_POST['update_category'];
-            $sql = "UPDATE categories SET cat_title = '$update_category' WHERE cat_id = '$edit_category_id'";
-            $edit_category = mysqli_query($connection, $sql);
-            // Refresh the page:
-            header("Location: categories.php");
-        }
-    }
-
-    // Delete Category
-    if(isset($_GET['delete'])) {
-        $category_id = $_GET['delete'];
-        $sql = "DELETE FROM categories WHERE cat_id = '$category_id'";
-        $delete_category = mysqli_query($connection, $sql);
-        // Refresh the page:
-        header("Location: categories.php");
-    }
+    addCategory();
+    showAllCategories();
+    updateCategory();
+    deleteCategory();
 ?>
 
     <div id="wrapper">
