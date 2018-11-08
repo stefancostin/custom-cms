@@ -17,7 +17,7 @@
                 $sql = "INSERT INTO categories(cat_title) VALUES ('$category_title')";
                 $query = mysqli_query($connection, $sql);
                 if(!$query) {
-                    die("Query Failed " . mysqli_error());
+                    die("Query Failed " . mysqli_error($connection));
                 }
             }
         }
@@ -71,7 +71,7 @@
         $sql = "SELECT * FROM posts";
         $selected_posts = mysqli_query($connection, $sql);
         // if(!$selected_posts) {
-        //     die("QUERY FAILED" . mysqli_error());
+        //     die("QUERY FAILED" . mysqli_error($connection));
         // }
         while ($record = mysqli_fetch_assoc($selected_posts)) { 
         ?>
@@ -90,5 +90,14 @@
         }
     }
 
+    /* UTILITY
+     * =================================================== */
+    function validateQuery($result_object) {
+        global $connection;
+        
+        if(!$result_object) {
+            die("QUERY FAILED. " . mysqli_error($connection));
+        }
+    }
 
 ?>

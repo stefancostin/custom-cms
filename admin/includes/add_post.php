@@ -3,7 +3,7 @@
         // Deconstructing Post Superglobal.
         $post_title = $_POST['post_title'];
         $post_author = $_POST['post_author'];
-        $post_category = $_POST['post_category_id'];
+        $post_category_id = $_POST['post_category_id'];
         $post_status = $_POST['post_status'];
         $post_tags = $_POST['post_tags'];
         $post_content = $_POST['post_content'];
@@ -16,6 +16,14 @@
 
         // Uploading Image
         move_uploaded_file($post_image_temp, "../images/$post_image");
+
+        // Query to Tb
+        $sql = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES ($post_category_id, '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', $post_comment_count, '$post_status')";
+
+        $create_post = mysqli_query($connection, $sql);
+
+        // Validate Query
+        validateQuery($create_post);
     }
 ?>
 <div class="row">
@@ -47,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label for="post_content">Post Content</label>
-                <input type="text" class="form-control" id="post_content" name="post_content">
+                <textarea type="text" class="form-control" id="post_content" name="post_content" cols"30" rows="10"></textarea>
             </div>
             <input type="submit" class="btn btn-primary mb-15" value="Submit Post" name="create_post">
         </form>
