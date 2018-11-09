@@ -12,6 +12,16 @@ a.action-danger {
 /* Utility */
 /* ******* */
 
+.d-inline {
+    display: inline;
+}
+.d-block {
+    display: block;
+}
+.d-inline-block {
+    display: inline-block;
+}
+
 .mb-5 {
     margin-bottom: 5px;
 }

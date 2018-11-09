@@ -85,6 +85,7 @@
                 <td><?= $record['post_comment_count'] ?></td>
                 <td>1<?= $record['post_date'] ?></td>
                 <!-- Actions -->
+                <td><a href="?source=edit_post&edit=<?=$record['post_id']?>">Edit</a></td>
                 <td><a href="?delete=<?=$record['post_id']?>" class="action-danger">Delete</a></td>
             </tr>        
         <?php
