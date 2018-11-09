@@ -1,3 +1,5 @@
+<?php deletePost() ?>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -10,6 +12,7 @@
             <th>Tags</th>
             <th>Comments</th>
             <th>Date</th>
+            <th><!-- Delete --></th>
         </tr>
     </thead>
     <tbody>

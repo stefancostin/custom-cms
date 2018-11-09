@@ -70,9 +70,8 @@
 
         $sql = "SELECT * FROM posts";
         $selected_posts = mysqli_query($connection, $sql);
-        // if(!$selected_posts) {
-        //     die("QUERY FAILED" . mysqli_error($connection));
-        // }
+        validateQuery($selected_posts);
+
         while ($record = mysqli_fetch_assoc($selected_posts)) { 
         ?>
             <tr>
@@ -85,8 +84,24 @@
                 <td><?= $record['post_tags'] ?></td>
                 <td><?= $record['post_comment_count'] ?></td>
                 <td>1<?= $record['post_date'] ?></td>
+                <!-- Actions -->
+                <td><a href="?delete=<?=$record['post_id']?>" class="action-danger">Delete</a></td>
             </tr>        
         <?php
+        }
+    }
+
+    function deletePost() {
+        global $connection;
+
+        if(isset($_GET['delete'])) {
+            $post_id = $_GET['delete'];
+
+            $sql = "DELETE FROM posts WHERE post_id = '$post_id'";
+            $delete_post = mysqli_query($connection, $sql);
+            validateQuery($delete_post);
+            // Refresh the page:
+            // header("Location: posts.php");
         }
     }
 
@@ -94,7 +109,7 @@
      * =================================================== */
     function validateQuery($result_object) {
         global $connection;
-        
+
         if(!$result_object) {
             die("QUERY FAILED. " . mysqli_error($connection));
         }
