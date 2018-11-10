@@ -17,19 +17,22 @@
 
                 <!-- Looped Blog Post -- Logic -->
                 <?php 
-                    $sql = "SELECT * FROM posts";
-                    $result = mysqli_query($connection, $sql);
-                    
-                    while ($record = mysqli_fetch_assoc($result)) {
-                        $postId = $record['post_id'];
-                        $postAuthor = $record['post_author'];
-                        $postContent = $record['post_content'];
-                        $postDate = $record['post_date'];
-                        $postImage = $record['post_image'];
-                        $postTitle = $record['post_title'];
+                    if(isset($_GET['category'])) {
+                        $category_id = $_GET['category'];
 
-                        // Truncate content on homepage (gallery)
-                        $postContent = substr($postContent, 0, 345) . "...";
+                        $sql = "SELECT * FROM posts WHERE post_category_id = '$category_id'";
+                        $result = mysqli_query($connection, $sql);
+                        
+                        while ($record = mysqli_fetch_assoc($result)) {
+                            $postId = $record['post_id'];
+                            $postAuthor = $record['post_author'];
+                            $postContent = $record['post_content'];
+                            $postDate = $record['post_date'];
+                            $postImage = $record['post_image'];
+                            $postTitle = $record['post_title'];
+
+                            // Truncate content on category-page (gallery)
+                            $postContent = substr($postContent, 0, 345) . "...";
                 ?>
 
                 <!-- Looped Blog Post -- Content -->
@@ -49,6 +52,7 @@
                 <hr>
 
                 <?php
+                        }
                     }
                 ?>
 

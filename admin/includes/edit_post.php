@@ -43,6 +43,9 @@
         $post_comment_count = 4;
         $post_date = date('d-m-y');
 
+        // Escapes 'quotes'. Text sent with quotes fails the insert query.
+        $post_content = addslashes($post_content);
+
         // Uploading Image
         move_uploaded_file($post_image_temp, "../images/$post_image");
 
