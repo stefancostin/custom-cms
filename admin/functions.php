@@ -64,7 +64,6 @@
 
     /* POSTS
      * =================================================== */
-
     function showAllPosts() {
         global $connection;
 
@@ -78,7 +77,7 @@
                 <td><?= $record['post_id'] ?></td>
                 <td><?= $record['post_author'] ?></td>
                 <td><?= $record['post_title'] ?></td>
-                <td><?= $record['post_category_id'] ?></td>
+                <td><?= getCategoryById($record['post_category_id']); ?></td>
                 <td><?= $record['post_status'] ?></td>
                 <td><img src="../images/<?=$record['post_image']?>" class="img-responsive"></td>
                 <td><?= $record['post_tags'] ?></td>
@@ -101,8 +100,6 @@
             $sql = "DELETE FROM posts WHERE post_id = '$post_id'";
             $delete_post = mysqli_query($connection, $sql);
             validateQuery($delete_post);
-            // Refresh the page:
-            // header("Location: posts.php");
         }
     }
 
@@ -114,6 +111,19 @@
         if(!$result_object) {
             die("QUERY FAILED. " . mysqli_error($connection));
         }
+    }
+
+    function getCategoryById($category_id) {
+        global $connection;
+
+        $sql = "SELECT * FROM categories WHERE cat_id = '$category_id'";
+        $get_category_by_id = mysqli_query($connection, $sql);
+        validateQuery($get_category_by_id);
+
+        $selected_category = mysqli_fetch_assoc($get_category_by_id);
+
+        $category_title = $selected_category['cat_title'];
+        return $category_title;
     }
 
 ?>

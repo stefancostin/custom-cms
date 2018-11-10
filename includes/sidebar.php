@@ -1,6 +1,9 @@
 <?php
-    $sql = "SELECT * FROM categories LIMIT 8";
-    $select_categories_sidebar = mysqli_query($connection, $sql);
+    $sql_first_column = "SELECT * FROM categories LIMIT 4";
+    $select_categories_first_column = mysqli_query($connection, $sql_first_column);
+
+    $sql_second_column = "SELECT * FROM categories LIMIT 4 OFFSET 4";
+    $select_categories_second_column = mysqli_query($connection, $sql_second_column);
 ?>
 
 <!-- Blog Sidebar Widgets Column -->
@@ -28,28 +31,24 @@
             <div class="col-lg-6">
                 <ul class="list-unstyled">
                     <?php
-                        while ($record = mysqli_fetch_assoc($select_categories_sidebar) && $i<4) {
-                            $i++;
-                        ?>          
+                        while ($record = mysqli_fetch_assoc($select_categories_first_column)) { ?>          
                             <li>
-                                <a href="#"><?= $record['cat_title'] ?></a>
+                                <a href="category.php?category= <?= $record['cat_id'] ?> "><?= $record['cat_title'] ?></a>
                             </li>
-                        <?php
-                        }
+                        <?php }
                     ?>
                 </ul>
             </div>
             <!-- /.col-lg-6 -->
             <div class="col-lg-6">
                 <ul class="list-unstyled">
-                    <li><a href="#">Category Name</a>
-                    </li>
-                    <li><a href="#">Category Name</a>
-                    </li>
-                    <li><a href="#">Category Name</a>
-                    </li>
-                    <li><a href="#">Category Name</a>
-                    </li>
+                    <?php
+                        while ($record = mysqli_fetch_assoc($select_categories_second_column)) { ?>          
+                            <li>
+                                <a href="category.php?category= <?= $record['cat_id'] ?> "><?= $record['cat_title'] ?></a>
+                            </li>
+                        <?php }
+                    ?>
                 </ul>
             </div>
             <!-- /.col-lg-6 -->

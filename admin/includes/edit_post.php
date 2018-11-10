@@ -46,6 +46,19 @@
         // Uploading Image
         move_uploaded_file($post_image_temp, "../images/$post_image");
 
+        // Binds $post_image to previously sleected image from DB.
+        //
+        // If we ommit this code then the Update function will look for
+        // an image to upload from the $_FILES on the hard drive.
+        // This behaviour will upload an empty image address.
+        if(empty($post_image)) {
+            $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
+            $select_image = mysqli_query($connection, $sql);
+            $image_address = mysqli_fetch_assoc($select_image);
+            
+            $post_image = $image_address['post_image'];
+        }
+
         // Query to DB
         $sql = "UPDATE posts SET post_category_id = '$post_category_id', post_title = '$post_title', post_author = '$post_author', post_date = now(), post_image = '$post_image', post_content = '$post_content', post_tags = '$post_tags', post_comment_count = $post_comment_count, post_status = '$post_status' WHERE post_id = $post_id";
 
@@ -67,7 +80,7 @@
             </div>
             <div class="form-group">
                 <label for="post_category_id">Post Category Id</label>
-                <select name="post_category_id" id="">
+                <select name="post_category_id" id="post_category_id">
                     <?php 
                         $sql = "SELECT * FROM categories";
                         $select_categories = mysqli_query($connection, $sql);
@@ -78,9 +91,9 @@
 
                             // Making the current post the default selected option
                             if ($category_id === $post_category_id) {
-                                echo "<option value='' selected='selected'>{$category_id} - {$category_title} - Current Category </option>";
+                                echo "<option value='{$category_id}' selected='selected'>{$category_title} - Current Category </option>";
                             } else {
-                                echo "<option value=''>{$category_id} - {$category_title}</option>";
+                                echo "<option value='{$category_id}'>{$category_title}</option>";
                             }
                         } 
                     ?>

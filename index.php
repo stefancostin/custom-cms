@@ -1,5 +1,5 @@
 <?php include "./includes/db.php"; ?>
-<?php include "./includes/header.html" ?>
+<?php include "./includes/header.php" ?>
 <?php include "./includes/navigation.php" ?>
 
     <!-- Page Content -->
@@ -21,17 +21,17 @@
                     $result = mysqli_query($connection, $sql);
                     
                     while ($record = mysqli_fetch_assoc($result)) {
+                        $postId = $record['post_id'];
                         $postAuthor = $record['post_author'];
                         $postContent = $record['post_content'];
                         $postDate = $record['post_date'];
                         $postImage = $record['post_image'];
                         $postTitle = $record['post_title'];
-
                 ?>
 
                 <!-- Looped Blog Post -- Content -->
                 <h2>
-                    <a href="#"><?= $postTitle ?></a>
+                    <a href="post.php?p_id= <?= $postId ?> "><?= $postTitle ?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?= $postAuthor ?></a>
@@ -41,7 +41,7 @@
                 <img class="img-responsive" src="./images/<?= $postImage ?>" alt="">
                 <hr>
                 <p><?= $postContent ?></p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="post.php?p_id= <?= $postId ?> ">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
 
@@ -70,4 +70,4 @@
     </div>
     <!-- /.container -->
 
-<?php include "./includes/footer.html" ?>
+<?php include "./includes/footer.php" ?>
