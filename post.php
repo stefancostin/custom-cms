@@ -15,6 +15,26 @@
         $postDate = $post_details['post_date'];
         $postImage = $post_details['post_image'];
         $postTitle = $post_details['post_title'];
+    } else {
+        // Default Case: 
+        // 
+        // When you type in the url: */post.php,
+        // the first ever post will be displayed as a default.
+        // We initialize the $post_id to "1" (first post),
+        // so the add-comment section will know where to post the comments.
+
+        $post_id = 1;
+
+        $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
+        $get_post = mysqli_query($connection, $sql);
+
+        $post_details = mysqli_fetch_assoc($get_post); 
+        $postId = $post_details['post_id'];
+        $postAuthor = $post_details['post_author'];
+        $postContent = $post_details['post_content'];
+        $postDate = $post_details['post_date'];
+        $postImage = $post_details['post_image'];
+        $postTitle = $post_details['post_title'];
     }
 ?>
 

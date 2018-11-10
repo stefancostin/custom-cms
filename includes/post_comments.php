@@ -1,14 +1,45 @@
-<?php ?>
+<?php 
+    if(isset($_POST['create_comment'])) {
+        $comment_author = $_POST['comment_author'];
+        $comment_email = $_POST['comment_email'];
+        $comment_content = $_POST['comment_content'];
+
+        // Post Comment
+        $sql = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) VALUES ($post_id, '$comment_author', '$comment_email', '$comment_content', 'unapproved', now())";
+        $comment = mysqli_query($connection, $sql);
+        if(!$comment) {
+            die("QUERY FAILED " . mysqli_error($connection));
+        }
+
+        // Increment comment count on 'posts' table
+        $sql = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $post_id";
+        $increment_comment_count = mysqli_query($connection, $sql);
+        if(!$increment_comment_count) {
+            die("QUERRY FAILED " . mysqli_error($connection));
+        }
+
+    }
+?>
+
 <!-- Blog Comments -->
 
 <!-- Comments Form -->
 <div class="well">
     <h4>Leave a Comment:</h4>
-    <form role="form">
+    <form role="form" action="" method="post">
         <div class="form-group">
-            <textarea class="form-control" rows="3"></textarea>
+            <label for="comment_author">Author</label>
+            <input type="text" class="form-control" name="comment_author" id="comment_author">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label for="comment_email">Email</label>
+            <input type="email" class="form-control" name="comment_email" id="comment_email">
+        </div>
+        <div class="form-group">
+            <label for="comment_content">Comment</label>
+            <textarea class="form-control" rows="3" name="comment_content" id="comment_content"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" name="create_comment">Submit</button>
     </form>
 </div>
 

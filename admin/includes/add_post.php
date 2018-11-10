@@ -11,14 +11,14 @@
         $post_image = $_FILES['image']['name'];
         $post_image_temp = $_FILES['image']['tmp_name'];
 
-        $post_comment_count = 4;
+        // $post_comment_count = 4;
         $post_date = date('d-m-y');
 
         // Uploading Image
         move_uploaded_file($post_image_temp, "../images/$post_image");
 
         // Query to DB
-        $sql = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES ($post_category_id, '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', $post_comment_count, '$post_status')";
+        $sql = "INSERT INTO posts (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ($post_category_id, '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', '$post_status')";
 
         $create_post = mysqli_query($connection, $sql);
 

@@ -1,23 +1,23 @@
-<?php deletePost() ?>
+<?php deleteComment() ?>
 
 <table class="table table-hover table-bordered">
     <thead>
         <tr>
             <th>Id</th>
             <th>Author</th>
-            <th>Title</th>
-            <th>Category</th>
+            <th>Comment</th>
+            <th>Email</th>
             <th>Status</th>
-            <th>Image</th>
-            <th>Tags</th>
-            <th>Comments</th>
+            <th>Posted On</th>
+            <th>In Response To</th>
             <th>Date</th>
             <!-- Actions -->
-            <th>Edit</th>
+            <th>Approve</th>
+            <th>Unnaprove</th>
             <th>Delete</th>
         </tr>
     </thead>
     <tbody>
-        <?php showAllPosts(); ?>
+        <?php showAllComments(); ?>
     </tbody>
 </table>
