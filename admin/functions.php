@@ -115,12 +115,12 @@
         validateQuery($selected_comments);
 
         while ($record = mysqli_fetch_assoc($selected_comments)) { 
-            // Getting post_title && post_author from 'posts'
+            // Getting post_title from 'posts'
             $sql = "SELECT * FROM posts WHERE post_id = '{$record['comment_post_id']}'";
             $get_post = mysqli_query($connection, $sql);
             $selected_post = mysqli_fetch_assoc($get_post);
             $post_title = $selected_post['post_title'];
-            $post_author = $selected_post['post_author'];
+            $post_id = $selected_post['post_id'];
         ?>
             <tr>
                 <td><?= $record['comment_id'] ?></td>
@@ -128,12 +128,11 @@
                 <td><?= $record['comment_content'] ?></td>
                 <td><?= $record['comment_email'] ?></td>
                 <td><?= $record['comment_status'] ?></td>
-                <td><?= $post_title ?></td>
-                <td><?= $post_author ?></td>
-                <td>1<?= $record['comment_date'] ?></td>
+                <td><a href="../post.php?p_id= <?= $post_id ?>"><?= $post_title ?></a></td>
+                <td><?= $record['comment_date'] ?></td>
                 <!-- Actions -->
-                <td><a href="?source= ">Approve</a></td>
-                <td><a href="?delete= " class="action-danger">Unapprove</a></td>
+                <td><a href="?approve= <?= $record['comment_id'] ?>">Approve</a></td>
+                <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger">Unapprove</a></td>
                 <td><a href="?delete= <?= $record['comment_id'] ?> & post_id= <?= $record['comment_post_id'] ?>" class="action-danger">Delete</a></td>
             </tr>        
         <?php
@@ -159,6 +158,29 @@
             $deincrement_post_comment_count = mysqli_query($connection, $sql);
             validateQuery($deincrement_post_comment_count);
         }
+    }
+
+    function checkCommentStatus() {
+        global $connection;
+
+        if(isset($_GET['approve'])) {
+            $comment_id = $_GET['approve'];
+            $comment_status = 'approve';
+            setCommentStatus($comment_id, $comment_status);
+        }
+        elseif(isset($_GET['unapprove'])) {
+            $comment_id = $_GET['unapprove'];
+            $comment_status = 'unapprove';
+            setCommentStatus($comment_id, $comment_status);
+        }
+    }
+
+    function setCommentStatus($comment_id, $comment_status) {
+        global $connection;
+        
+        $sql = "UPDATE comments SET comment_status = '$comment_status' WHERE comment_id = '$comment_id'";
+        $change_status = mysqli_query($connection, $sql);
+        validateQuery($change_status);
     }
 
 

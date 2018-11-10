@@ -1,4 +1,5 @@
-<?php deleteComment() ?>
+<?php deleteComment(); ?>
+<?php checkCommentStatus(); ?>
 
 <table class="table table-hover table-bordered">
     <thead>
@@ -8,7 +9,6 @@
             <th>Comment</th>
             <th>Email</th>
             <th>Status</th>
-            <th>Posted On</th>
             <th>In Response To</th>
             <th>Date</th>
             <!-- Actions -->
