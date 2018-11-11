@@ -1,4 +1,5 @@
-<?php deletePost() ?>
+<?php deletePost(); ?>
+<?php publishPost(); ?>
 
 <table class="table table-hover table-bordered">
     <thead>
@@ -13,6 +14,7 @@
             <th>Comments</th>
             <th>Date</th>
             <!-- Actions -->
+            <th>Publish</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>

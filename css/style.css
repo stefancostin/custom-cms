@@ -1,3 +1,7 @@
+/* ********** */
+/* Typography */
+/* ********** */
+
 .error {
     font-size: 12px;
     color: #ff0000;
@@ -6,6 +10,9 @@
 .action-danger,
 a.action-danger {
     color: #ff0000;
+}
+.text-gray {
+    color: #999999;
 }
 
 /* ******* */

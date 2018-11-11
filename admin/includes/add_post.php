@@ -19,7 +19,6 @@
 
         // Query to DB
         $sql = "INSERT INTO posts (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ($post_category_id, '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', '$post_status')";
-
         $create_post = mysqli_query($connection, $sql);
 
         // Validate Query
@@ -55,7 +54,10 @@
             </div>
             <div class="form-group">
                 <label for="post_status">Post Status</label>
-                <input type="text" class="form-control" id="post_status" name="post_status">
+                <select class="form-control" name="post_status" id="post_status">
+                        <option value="draft" selected="selected">Draft</option>
+                        <option value="published">Publish</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="post_image">Post Image</label>

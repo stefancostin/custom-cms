@@ -16,7 +16,8 @@
                 </h1>
 
                 <!-- Looped Blog Post -- Logic -->
-                <?php 
+                <?php
+                    $publishedCounter = 0; 
                     $sql = "SELECT * FROM posts";
                     $result = mysqli_query($connection, $sql);
                     
@@ -27,29 +28,37 @@
                         $postDate = $record['post_date'];
                         $postImage = $record['post_image'];
                         $postTitle = $record['post_title'];
+                        $postStatus = $record['post_status'];
 
                         // Truncate content on homepage (gallery)
                         $postContent = substr($postContent, 0, 345) . "...";
-                ?>
 
-                <!-- Looped Blog Post -- Content -->
-                <h2>
-                    <a href="post.php?p_id= <?= $postId ?> "><?= $postTitle ?></a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php"><?= $postAuthor ?></a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?= $postDate ?> </p>
-                <hr>
-                <img class="img-responsive" src="./images/<?= $postImage ?>" alt="">
-                <hr>
-                <p><?= $postContent ?></p>
-                <a class="btn btn-primary" href="post.php?p_id= <?= $postId ?> ">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        // Only display the posts that have the status: published.
+                        if($postStatus == 'published') { 
+                            $publishedCounter++;
+                            ?>
 
-                <hr>
+                            <!-- Looped Blog Post -- Content -->
+                            <h2>
+                                <a href="post.php?p_id= <?= $postId ?> "><?= $postTitle ?></a>
+                            </h2>
+                            <p class="lead">
+                                by <a href="index.php"><?= $postAuthor ?></a>
+                            </p>
+                            <p><span class="glyphicon glyphicon-time"></span> Posted on <?= $postDate ?> </p>
+                            <hr>
+                            <img class="img-responsive" src="./images/<?= $postImage ?>" alt="">
+                            <hr>
+                            <p><?= $postContent ?></p>
+                            <a class="btn btn-primary" href="post.php?p_id= <?= $postId ?> ">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
-                <?php
-                    }
+                            <hr>
+
+                        <?php }
+                        }
+                    if(!$publishedCounter) {
+                        echo "<h5>There are no posts available.</h5>";
+                    }    
                 ?>
 
                 <!-- Pager -->

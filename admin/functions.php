@@ -67,7 +67,7 @@
     function showAllPosts() {
         global $connection;
 
-        $sql = "SELECT * FROM posts";
+        $sql = "SELECT * FROM posts ORDER BY FIELD (post_status, 'draft', 'published')";
         $selected_posts = mysqli_query($connection, $sql);
         validateQuery($selected_posts);
 
@@ -84,6 +84,11 @@
                 <td><?= $record['post_comment_count'] ?></td>
                 <td>1<?= $record['post_date'] ?></td>
                 <!-- Actions -->
+                <?php if($record['post_status'] !== 'published') { ?>
+                    <td><a href="?publish=<?=$record['post_id']?>">Publish</a></td>
+                <?php } else { ?>
+                    <td class="text-gray">Publish</td>                    
+                <?php } ?>
                 <td><a href="?source=edit_post&edit=<?=$record['post_id']?>">Edit</a></td>
                 <td><a href="?delete=<?=$record['post_id']?>" class="action-danger">Delete</a></td>
             </tr>        
@@ -101,6 +106,18 @@
             $delete_post = mysqli_query($connection, $sql);
             validateQuery($delete_post);
         }
+    }
+
+    function publishPost() {
+        global $connection;
+
+        if(isset($_GET['publish'])) {
+            $post_id = $_GET['publish'];
+
+            $sql = "UPDATE posts SET post_status = 'published' WHERE post_id = $post_id";
+            $publish_post = mysqli_query($connection, $sql);
+            validateQuery($publish_post);
+        } 
     }
 
 
@@ -165,12 +182,12 @@
 
         if(isset($_GET['approve'])) {
             $comment_id = $_GET['approve'];
-            $comment_status = 'approve';
+            $comment_status = 'approved';
             setCommentStatus($comment_id, $comment_status);
         }
         elseif(isset($_GET['unapprove'])) {
             $comment_id = $_GET['unapprove'];
-            $comment_status = 'unapprove';
+            $comment_status = 'unapproved';
             setCommentStatus($comment_id, $comment_status);
         }
     }

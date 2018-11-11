@@ -40,7 +40,6 @@
         $post_image = $_FILES['image']['name'];
         $post_image_temp = $_FILES['image']['tmp_name'];
 
-        $post_comment_count = 4;
         $post_date = date('d-m-y');
 
         // Escapes 'quotes'. Text sent with quotes fails the insert query.
@@ -61,6 +60,8 @@
             
             $post_image = $image_address['post_image'];
         }
+
+        // die($post_status);
 
         // Query to DB
         $sql = "UPDATE posts SET post_category_id = '$post_category_id', post_title = '$post_title', post_author = '$post_author', post_date = now(), post_image = '$post_image', post_content = '$post_content', post_tags = '$post_tags', post_comment_count = $post_comment_count, post_status = '$post_status' WHERE post_id = $post_id";
@@ -108,7 +109,15 @@
             </div>
             <div class="form-group">
                 <label for="post_status">Post Status</label>
-                <input type="text" class="form-control" id="post_status" name="post_status" value="<?= $post_status ?>">
+                <select class="form-control" name="post_status" id="post_status">
+                    <?php if($post_status == 'published') { ?>
+                        <option value="draft">Draft</option>
+                        <option value="published" selected="selected">Publish</option>
+                    <?php } else { ?>
+                        <option value="draft" selected="selected">Draft</option>
+                        <option value="published">Publish</option>
+                    <?php } ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="post_image">Post Image</label>
