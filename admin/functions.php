@@ -201,6 +201,48 @@
     }
 
 
+
+    /* USERS
+     * =================================================== */
+    function showAllUsers() {
+        global $connection;
+
+        $sql = "SELECT * FROM users";
+        $selected_users = mysqli_query($connection, $sql);
+        validateQuery($selected_users);
+
+        while ($record = mysqli_fetch_assoc($selected_users)) { 
+        ?>
+            <tr>
+                <td><?= $record['user_id'] ?></td>
+                <td><?= $record['user_username'] ?></td>
+                <td><?= $record['user_firstname'] ?></td>
+                <td><?= $record['user_lastname'] ?></td>
+                <td><?= $record['user_email'] ?></td>
+                <td>1<?= $record['user_role'] ?></td>
+                <!-- Actions -->
+                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>">Edit</a></td>
+                <td><a href="?delete=<?=$record['user_id']?>" class="action-danger">Delete</a></td>
+            </tr>        
+        <?php
+        }
+    }
+
+    function deleteUser() {
+        global $connection;
+
+        if(isset($_GET['delete'])) {
+            $user_id = $_GET['delete'];
+
+            $sql = "DELETE FROM users WHERE user_id = '$user_id'";
+            $delete_user = mysqli_query($connection, $sql);
+            validateQuery($delete_user);
+        }
+    }
+
+
+
+
     /* UTILITY
      * =================================================== */
     function validateQuery($result_object) {
