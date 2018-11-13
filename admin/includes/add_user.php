@@ -1,28 +1,34 @@
 <?php 
-    if(isset($_POST['create_post'])) {
+    if(isset($_POST['add_user'])) {
         // Deconstructing Post Superglobal.
-        $post_title = $_POST['post_title'];
-        $post_author = $_POST['post_author'];
-        $post_category_id = $_POST['post_category_id'];
-        $post_status = $_POST['post_status'];
-        $post_tags = $_POST['post_tags'];
-        $post_content = $_POST['post_content'];
+        $email = $_POST['email'];
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $password = $_POST['password'];
+        $role = $_POST['role'];
+        $username = $_POST['username'];
 
-        $post_image = $_FILES['image']['name'];
-        $post_image_temp = $_FILES['image']['tmp_name'];
+        // $post_image = $_FILES['image']['name'];
+        // $post_image_temp = $_FILES['image']['tmp_name'];
+        // $post_date = date('d-m-y');
 
-        // $post_comment_count = 4;
-        $post_date = date('d-m-y');
 
         // Uploading Image
-        move_uploaded_file($post_image_temp, "../images/$post_image");
+        // move_uploaded_file($post_image_temp, "../images/$post_image");
+
+        // Security - Blowfish Salt
+        $hashFormat = "$2y$10$";
+        $hashRandom = "19601611lamultianiRita";
+        $hashSalt = $hashFormat . $hashRandom;
+        // Security - Encrypt password
+        $password = crypt($password, $hashSalt);
 
         // Query to DB
-        $sql = "INSERT INTO posts (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ($post_category_id, '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', '$post_status')";
-        $create_post = mysqli_query($connection, $sql);
+        $sql = "INSERT INTO users (user_email, user_firstname, user_lastname, user_password, user_role, user_username) VALUES ('$email', '$firstname', '$lastname', '$password', '$role', '$username')";
+        $create_user = mysqli_query($connection, $sql);
 
         // Validate Query
-        validateQuery($create_post);
+        validateQuery($create_user);
     }
 ?>
 
@@ -39,20 +45,10 @@
             </div>
             <div class="form-group">
                 <label for="role">Role</label>
-                <div class="form-group input-group input-group-btn">
-                    <input type="text" class="form-control" id="role" name="role" data-toggle="dropdown" aria-expanded="false">
-                    <ul class="dropdown-menu dropdown-menu-left full-width" role="menu">
-                        <?php 
-                            $sql = "SELECT user_role FROM users";
-                            $user_role_query = mysqli_query($connection, $sql);
-                            validateQuery($user_role_query);
-
-                            while($user_role = mysqli_fetch_assoc($user_role_query)) { ?>
-                                <li><a href="javascript:;"><?= $user_role['user_role'] ?></a></li>
-                            <?php } 
-                        ?>
-                    </ul>
-                </div>
+                <select name="role" id="role" class="form-control">
+                    <option value="subscriber">Subscriber</option>
+                    <option value="admin">Admin</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -69,7 +65,5 @@
             </div>
             <input type="submit" class="btn btn-primary mb-15" value="Add User" name="add_user">
         </form>
-        <script type="text/javascript" src="./js/jquery.js"></script>
-        <script type="text/javascript" src="./includes/user_roles.js"></script>
     </div>
 </div>
