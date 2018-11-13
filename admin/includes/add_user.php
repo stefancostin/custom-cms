@@ -25,53 +25,51 @@
         validateQuery($create_post);
     }
 ?>
+
 <div class="row">
     <div class="col-sm-6">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="post_title">Post Title</label>
-                <input type="text" class="form-control" id="post_title" name="post_title">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" id="firstname" name="firstname">
             </div>
             <div class="form-group">
-                <label for="post_category_id">Post Category Id</label>
-                <select name="post_category_id" id="post_category_id" class="d-block">
-                    <?php 
-                        $sql = "SELECT * FROM categories";
-                        $select_categories = mysqli_query($connection, $sql);
-                                            
-                        while($category = mysqli_fetch_assoc($select_categories)) {
-                            $category_id = $category['cat_id'];
-                            $category_title = $category['cat_title'];
+                <label for="post_author">Last Name</label>
+                <input type="text" class="form-control" id="post_author" name="lastname">
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <div class="form-group input-group input-group-btn">
+                    <input type="text" class="form-control" id="role" name="role" data-toggle="dropdown" aria-expanded="false">
+                    <ul class="dropdown-menu dropdown-menu-left full-width" role="menu">
+                        <?php 
+                            $sql = "SELECT user_role FROM users";
+                            $user_role_query = mysqli_query($connection, $sql);
+                            validateQuery($user_role_query);
 
-                            echo "<option value='{$category_id}'>{$category_title}</option>";
-                        } 
-                    ?>
-                </select>
+                            while($user_role = mysqli_fetch_assoc($user_role_query)) { ?>
+                                <li><a href="javascript:;"><?= $user_role['user_role'] ?></a></li>
+                            <?php } 
+                        ?>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username">
             </div>
             <div class="form-group">
-                <label for="post_author">Post Author</label>
-                <input type="text" class="form-control" id="post_author" name="post_author">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
             </div>
             <div class="form-group">
-                <label for="post_status">Post Status</label>
-                <select class="form-control" name="post_status" id="post_status">
-                        <option value="draft" selected="selected">Draft</option>
-                        <option value="published">Publish</option>
-                </select>
+                <label for="passord">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
             </div>
-            <div class="form-group">
-                <label for="post_image">Post Image</label>
-                <input type="file" id="image" name="image">
-            </div>
-            <div class="form-group">
-                <label for="post_tags">Post Tags</label>
-                <input type="text" class="form-control" id="post_tags" name="post_tags">
-            </div>
-            <div class="form-group">
-                <label for="post_content">Post Content</label>
-                <textarea type="text" class="form-control" id="post_content" name="post_content" cols"30" rows="10"></textarea>
-            </div>
-            <input type="submit" class="btn btn-primary mb-15" value="Submit Post" name="create_post">
+            <input type="submit" class="btn btn-primary mb-15" value="Add User" name="add_user">
         </form>
+        <script type="text/javascript" src="./js/jquery.js"></script>
+        <script type="text/javascript" src="./includes/user_roles.js"></script>
     </div>
 </div>

@@ -29,6 +29,10 @@ a.action-danger {
     display: inline-block;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .mb-5 {
     margin-bottom: 5px;
 }

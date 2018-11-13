@@ -107,6 +107,29 @@
                 <label for="post_author">Post Author</label>
                 <input type="text" class="form-control" id="post_author" name="post_author" value="<?= $post_author ?>">
             </div>
+
+
+
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select name="role" id="role" class="form-control">
+                    <?php 
+                        $sql = "SELECT user_role FROM users";
+                        $user_role_query = mysqli_query($connection, $sql);
+                        validateQuery($user_role_query);
+
+                        while($user_role = mysqli_fetch_assoc($user_role_query)) { ?>
+                            <option value="role"><?= $user_role['user_role'] ?></option>
+                        <?php } 
+                    ?>
+                </select>
+            </div>
+
+
+
+
+            
             <div class="form-group">
                 <label for="post_status">Post Status</label>
                 <select class="form-control" name="post_status" id="post_status">
