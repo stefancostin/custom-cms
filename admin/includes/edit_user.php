@@ -1,30 +1,26 @@
 <?php 
-    // Displaying the post selected to de edited.
+    // Displaying the user selected to de edited.
     //
     // We first pass the id through a $_GET request,
     // and then we make a query for this specific row to get its data.
-    if(isset($_GET['edit']) && $_GET['source'] === 'edit_post') {
+    if(isset($_GET['edit']) && $_GET['source'] === 'edit_user') {
         // Initializing variable
-        $post_id = $_GET['edit'];
+        $user_id = $_GET['edit'];
 
         // Query to DB
-        $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
-        $select_post_by_id = mysqli_query($connection, $sql);
-        validateQuery($select_post_by_id);
+        $sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+        $select_user_by_id = mysqli_query($connection, $sql);
+        validateQuery($select_user_by_id);
 
         // Retrieving row/record/post with specific ID from DB
-        $selected_post = mysqli_fetch_assoc($select_post_by_id);
+        $selected_user = mysqli_fetch_assoc($select_user_by_id);
 
         // Deconstructing result object
-        $post_title = $selected_post['post_title'];
-        $post_author = $selected_post['post_author'];
-        $post_category_id = $selected_post['post_category_id'];
-        $post_status = $selected_post['post_status'];
-        $post_tags = $selected_post['post_tags'];
-        $post_content = $selected_post['post_content'];
-        $post_image = $selected_post['post_image'];
-        $post_comment_count = $selected_post['post_comment_count'];
-        $post_date = $selected_post['post_date'];
+        $firstname = $selected_user['user_firstname'];
+        $lastname = $selected_user['user_lastname'];
+        $username = $selected_user['user_username'];
+        $email = $selected_user['user_email'];
+        $role = $selected_user['user_role'];
     }
 
     // Submit edited information.
@@ -79,85 +75,34 @@
     <div class="col-sm-6">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="post_title">Post Title</label>
-                <input type="text" class="form-control" id="post_title" name="post_title" value="<?= $post_title ?>">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" value="<?= $firstname ?>">
             </div>
             <div class="form-group">
-                <label for="post_category_id">Post Category Id</label>
-                <select name="post_category_id" id="post_category_id">
-                    <?php 
-                        $sql = "SELECT * FROM categories";
-                        $select_categories = mysqli_query($connection, $sql);
-                                            
-                        while($category = mysqli_fetch_assoc($select_categories)) {
-                            $category_id = $category['cat_id'];
-                            $category_title = $category['cat_title'];
-
-                            // Making the current post the default selected option
-                            if ($category_id === $post_category_id) {
-                                echo "<option value='{$category_id}' selected='selected'>{$category_title} - Current Category </option>";
-                            } else {
-                                echo "<option value='{$category_id}'>{$category_title}</option>";
-                            }
-                        } 
-                    ?>
-                </select>
+                <label for="post_author">Last Name</label>
+                <input type="text" class="form-control" id="post_author" name="lastname" value="<?= $lastname ?>">
             </div>
-            <div class="form-group">
-                <label for="post_author">Post Author</label>
-                <input type="text" class="form-control" id="post_author" name="post_author" value="<?= $post_author ?>">
-            </div>
-
-
-
-
             <div class="form-group">
                 <label for="role">Role</label>
                 <select name="role" id="role" class="form-control">
-                    <?php 
-                        $sql = "SELECT user_role FROM users";
-                        $user_role_query = mysqli_query($connection, $sql);
-                        validateQuery($user_role_query);
-
-                        while($user_role = mysqli_fetch_assoc($user_role_query)) { ?>
-                            <option value="role"><?= $user_role['user_role'] ?></option>
-                        <?php } 
-                    ?>
-                </select>
-            </div>
-
-
-
-
-            
-            <div class="form-group">
-                <label for="post_status">Post Status</label>
-                <select class="form-control" name="post_status" id="post_status">
-                    <?php if($post_status == 'published') { ?>
-                        <option value="draft">Draft</option>
-                        <option value="published" selected="selected">Publish</option>
+                    <?php if($role === 'admin') { ?>
+                        <option value="admin" selected="selected">Admin</option>
+                        <option value="subscriber">Subscriber</option>
                     <?php } else { ?>
-                        <option value="draft" selected="selected">Draft</option>
-                        <option value="published">Publish</option>
+                        <option value="subscriber">Subscriber</option>
+                        <option value="admin">Admin</option>
                     <?php } ?>
                 </select>
             </div>
             <div class="form-group">
-                <label for="post_image">Post Image</label>
-                <img src="../images/<?= $post_image ?>" width="150px" class="d-block mb-10">
-                <input type="file" id="image" name="image" value="<?= $post_image ?>">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" value="<?= $username ?>">
             </div>
             <div class="form-group">
-                <label for="post_tags">Post Tags</label>
-                <input type="text" class="form-control" id="post_tags" name="post_tags" value="<?= $post_tags ?>">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="<?= $email ?>">
             </div>
-            <div class="form-group">
-                <label for="post_content">Post Content</label>
-                <textarea type="text" class="form-control" id="post_content" name="post_content" cols"30" rows="10">
-                    <?= $post_content ?>
-                </textarea>
-            </div>
-            <input type="submit" class="btn btn-primary mb-15" value="Submit Post" name="update_post">
+            <input type="submit" class="btn btn-primary mb-15" value="Add User" name="add_user">
         </form>
     </div>
 </div>

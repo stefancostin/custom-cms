@@ -219,7 +219,7 @@
                 <td><?= $record['user_firstname'] ?></td>
                 <td><?= $record['user_lastname'] ?></td>
                 <td><?= $record['user_email'] ?></td>
-                <td>1<?= $record['user_role'] ?></td>
+                <td><?= $record['user_role'] ?></td>
                 <!-- Actions -->
                 <td><a href="?source=edit_user&edit=<?=$record['user_id']?>">Edit</a></td>
                 <td><a href="?delete=<?=$record['user_id']?>" class="action-danger">Delete</a></td>
