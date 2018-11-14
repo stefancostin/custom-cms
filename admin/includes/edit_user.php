@@ -24,51 +24,23 @@
     }
 
     // Submit edited information.
-    if(isset($_POST['update_post'])) {
+    if(isset($_POST['update_user'])) {
         // Deconstructing Post Superglobal.
-        $post_title = $_POST['post_title'];
-        $post_author = $_POST['post_author'];
-        $post_category_id = $_POST['post_category_id'];
-        $post_status = $_POST['post_status'];
-        $post_tags = $_POST['post_tags'];
-        $post_content = $_POST['post_content'];
-
-        $post_image = $_FILES['image']['name'];
-        $post_image_temp = $_FILES['image']['tmp_name'];
-
-        $post_date = date('d-m-y');
-
-        // Escapes 'quotes'. Text sent with quotes fails the insert query.
-        $post_content = addslashes($post_content);
-
-        // Uploading Image
-        move_uploaded_file($post_image_temp, "../images/$post_image");
-
-        // Binds $post_image to previously sleected image from DB.
-        //
-        // If we ommit this code then the Update function will look for
-        // an image to upload from the $_FILES on the hard drive.
-        // This behaviour will upload an empty image address.
-        if(empty($post_image)) {
-            $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
-            $select_image = mysqli_query($connection, $sql);
-            $image_address = mysqli_fetch_assoc($select_image);
-            
-            $post_image = $image_address['post_image'];
-        }
-
-        // die($post_status);
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $role = $_POST['role'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
 
         // Query to DB
-        $sql = "UPDATE posts SET post_category_id = '$post_category_id', post_title = '$post_title', post_author = '$post_author', post_date = now(), post_image = '$post_image', post_content = '$post_content', post_tags = '$post_tags', post_comment_count = $post_comment_count, post_status = '$post_status' WHERE post_id = $post_id";
-
-        $update_post = mysqli_query($connection, $sql);
+        $sql = "UPDATE users SET user_firstname = '$firstname', user_lastname = '$lastname', user_role = '$role', user_username = '$username', user_email = '$email' WHERE user_id = $user_id";
+        $update_user = mysqli_query($connection, $sql);
 
         // Validate Query
-        validateQuery($update_post);
+        validateQuery($update_user);
 
         // Redirect
-        header("Location: posts.php");
+        header("Location: users.php");
     }
 ?>
 <div class="row">
@@ -102,7 +74,7 @@
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?= $email ?>">
             </div>
-            <input type="submit" class="btn btn-primary mb-15" value="Add User" name="add_user">
+            <input type="submit" class="btn btn-primary mb-15" value="Edit User" name="update_user">
         </form>
     </div>
 </div>

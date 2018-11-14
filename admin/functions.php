@@ -221,7 +221,19 @@
                 <td><?= $record['user_email'] ?></td>
                 <td><?= $record['user_role'] ?></td>
                 <!-- Actions -->
-                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>">Edit</a></td>
+                <?php if($record['user_role'] !== 'admin') { ?>
+                    <td><a href="?to_admin=<?=$record['user_id']?>">To Admin</a></td>
+                <?php } else { ?>
+                    <td class="text-gray">To Admin</td>
+                <?php } ?>
+
+                <?php if($record['user_role'] !== 'subscriber') { ?>
+                    <td><a href="?to_subscriber=<?=$record['user_id']?>">To Subscriber</a></td>
+                <?php } else { ?>
+                    <td class="text-gray">To Subscriber</td>
+                <?php } ?>
+
+                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>">Edit</a></td>                
                 <td><a href="?delete=<?=$record['user_id']?>" class="action-danger">Delete</a></td>
             </tr>        
         <?php
@@ -238,6 +250,29 @@
             $delete_user = mysqli_query($connection, $sql);
             validateQuery($delete_user);
         }
+    }
+
+    function checkUserRole() {
+        global $connection;
+
+        if(isset($_GET['to_admin'])) {
+            $user_id = $_GET['to_admin'];
+            $user_role = 'admin';
+            setUserRole($user_id, $user_role);
+        }
+        elseif(isset($_GET['to_subscriber'])) {
+            $user_id = $_GET['to_subscriber'];
+            $user_role = 'subscriber';
+            setUserRole($user_id, $user_role);            
+        }
+    }
+
+    function setUserRole($user_id, $user_role) {
+        global $connection;
+        
+        $sql = "UPDATE users SET user_role = '$user_role' WHERE user_id = '$user_id'";
+        $change_role = mysqli_query($connection, $sql);
+        validateQuery($change_role);
     }
 
 
