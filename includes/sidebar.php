@@ -24,6 +24,42 @@
         </form>
     </div>
 
+    <!-- Login -->
+    <div class="well">
+        <h4>Login</h4>
+        <form action="includes/login.php" method="post">
+            <div class="form-group">
+                <label for="username" class="text-gray small-print to-uppercase weight-normal">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="password" class="text-gray small-print to-uppercase weight-normal">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" name="login">Log In</button>
+                    </span>
+                </div>
+            </div>
+            <?php 
+                $credentialError = '';
+                if(isset($_SESSION['credentialValidation'])) {                    
+                    if($_SESSION['credentialValidation'] === true) {
+                        $credentialError = "Invalid credentials";
+                    } else {
+                        $credentialError = '';
+                    }
+                }
+            ?>
+            <p class="action-danger"> <?= $credentialError ?> </p>
+            <?php 
+                // Reset credential validation after changing page
+                // in order to get rid of permanent credential error.
+                $_SESSION['credentialValidation'] = false; 
+            ?>
+        </form>
+    </div>
+
     <!-- Blog Categories Well -->
     <div class="well">
         <h4>Blog Categories</h4>

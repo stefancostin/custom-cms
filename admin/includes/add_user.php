@@ -16,12 +16,8 @@
         // Uploading Image
         // move_uploaded_file($post_image_temp, "../images/$post_image");
 
-        // Security - Blowfish Salt
-        $hashFormat = "$2y$10$";
-        $hashRandom = "19601611lamultianiRita";
-        $hashSalt = $hashFormat . $hashRandom;
-        // Security - Encrypt password
-        $password = crypt($password, $hashSalt);
+        // Security - Hashing
+        $password = password_hash($password, PASSWORD_DEFAULT);
 
         // Query to DB
         $sql = "INSERT INTO users (user_email, user_firstname, user_lastname, user_password, user_role, user_username) VALUES ('$email', '$firstname', '$lastname', '$password', '$role', '$username')";

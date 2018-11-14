@@ -11,8 +11,21 @@
 a.action-danger {
     color: #ff0000;
 }
+.small-print {
+    font-size: 10px;
+}
 .text-gray {
     color: #aaaaaa;
+}
+.weight-normal {
+    font-weight: normal;
+}
+.to-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+.to-capitalized {
+    text-transform: capitalize;
 }
 
 /* ******* */
