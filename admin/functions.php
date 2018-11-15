@@ -148,8 +148,19 @@
                 <td><a href="../post.php?p_id= <?= $post_id ?>"><?= $post_title ?></a></td>
                 <td><?= $record['comment_date'] ?></td>
                 <!-- Actions -->
-                <td><a href="?approve= <?= $record['comment_id'] ?>">Approve</a></td>
-                <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger">Unapprove</a></td>
+                <!-- Approve -->
+                <?php if($record['comment_status'] === 'approved') { ?>
+                    <td class="text-gray">Approve</td>
+                <?php } else { ?>
+                    <td><a href="?approve= <?= $record['comment_id'] ?>">Approve</a></td>
+                <?php } ?>
+                <!-- Unapprove -->
+                <?php if($record['comment_status'] === 'unapprove') { ?>
+                    <td class="text-gray">Unapprove</td>
+                <?php } else { ?>
+                    <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger">Unapprove</a></td>
+                <?php } ?>
+                <!-- Delete -->
                 <td><a href="?delete= <?= $record['comment_id'] ?> & post_id= <?= $record['comment_post_id'] ?>" class="action-danger">Delete</a></td>
             </tr>        
         <?php
@@ -275,7 +286,7 @@
         validateQuery($change_role);
     }
 
-
+    
 
 
     /* UTILITY
