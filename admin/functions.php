@@ -286,6 +286,38 @@
         validateQuery($change_role);
     }
 
+
+    /* PROFILE
+     * =================================================== */
+    function changePassword() {
+        global $connection;
+
+        if(isset($_POST['change_password'])) {
+            $current_password = $_POST['current_password'];
+            $new_password = $_POST['new_password'];
+            $confirm_password = $_POST['confirm_password'];
+            $username = $_SESSION['username'];
+
+            $sql = "SELECT * FROM users WHERE user_username = '$username'";
+            $get_user = mysqli_query($connection, $sql);
+            if(!$get_user) {
+                die("QUERY FAILED. " . mysqli_error($connection));
+            }
+
+            $user_data = mysqli_fetch_assoc($get_user);
+            $user_id = $user_data['user_id'];
+            $db_password = $user_data['user_password'];
+
+            if(($new_password === $confirm_password) && (password_verify($current_password, $db_password))) {
+                $new_password = password_hash($new_password, PASSWORD_DEFAULT);
+                $sql = "UPDATE users SET user_password = '$new_password' WHERE user_id = '$user_id'";
+                $update_password = mysqli_query($connection, $sql);
+                validateQuery($update_password);
+            } else {
+                $showValidation = true;
+            }
+        }
+    }
     
 
 

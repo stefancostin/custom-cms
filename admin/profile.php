@@ -1,5 +1,6 @@
 <?php include "./includes/admin_header.php"; ?>
 <?php include "functions.php"; ?>
+<?php changePassword(); ?>
 <?php
     if(isset($_SESSION['username'])) {
         $username = $_SESSION['username'];
@@ -58,9 +59,10 @@
                             <small>Subheading</small>
                         </h1>
 
-                        <!-- Profile Table -->
+                        <!-- Profile -->
                         <div class="row">
                             <div class="col-sm-6">
+                                <h2 class="mb-20">Profile</h2>
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label for="firstname">First Name</label>
@@ -91,6 +93,23 @@
                                         <input type="email" class="form-control" id="email" name="email" value="<?= $email ?>">
                                     </div>
                                     <input type="submit" class="btn btn-primary mb-15" value="Update Profile" name="update_profile">
+                                </form>
+                                <hr>
+                                <h2 class="mb-20">Change Password</h2>
+                                <form action="" method="post">
+                                    <div class="form-group">
+                                        <label for="current_password">Current Password</label>
+                                        <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Your current password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new_password">New Password</label>
+                                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Your current password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your current password">
+                                    </div>
+                                    <input type="submit" class="btn btn-primary mb-15" name="change_password" value="Change Password">
                                 </form>
                             </div>
                         </div>
