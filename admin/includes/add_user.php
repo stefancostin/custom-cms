@@ -1,4 +1,8 @@
 <?php 
+    $showAlert = false;
+    include "includes/alert.php";
+?>
+<?php 
     if(isset($_POST['add_user'])) {
         // Deconstructing Post Superglobal.
         $email = $_POST['email'];
@@ -25,9 +29,18 @@
 
         // Validate Query
         validateQuery($create_user);
+
+        // Show success alert
+        if($create_user) {
+            $showAlert = true;
+        }
     }
 ?>
-
+<?php 
+    if($showAlert) {
+        displaySuccessAlert("User added"); 
+    }
+?>
 <div class="row">
     <div class="col-sm-6">
         <form action="" method="post" enctype="multipart/form-data">

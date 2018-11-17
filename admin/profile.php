@@ -1,6 +1,18 @@
 <?php include "./includes/admin_header.php"; ?>
 <?php include "functions.php"; ?>
-<?php changePassword(); ?>
+<?php 
+    $showProfileAlert = false;
+    $showPasswordAlert = false;
+    include "includes/alert.php";
+?>
+<?php $showPasswordAlert = changePassword(); ?>
+<?php 
+    if($showPasswordAlert) {
+        echo "<h1> Este: True </h1>"; 
+    } else {
+        echo "<h1> Este: False </h1>";
+    }
+?>
 <?php
     if(isset($_SESSION['username'])) {
         $username = $_SESSION['username'];
@@ -37,6 +49,11 @@
         // Validate Query
         validateQuery($update_profile);
 
+        // Show success alert
+        if($update_profile) {
+            $showProfileAlert = true;
+        }
+
         // Redirect
         // header("Location: users.php");
     }
@@ -53,7 +70,19 @@
 
                 <!-- Page Heading -->
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12">                        
+                        
+                        <!-- Success Alert -->
+                        <?php 
+                            if($showProfileAlert) {
+                                displaySuccessAlert("Profile updated"); 
+                            }
+                            if($showPasswordAlert) {
+                                displaySuccessAlert("Password updated"); 
+                            }
+                        ?>
+
+                        <!-- Page Nanem -->
                         <h1 class="page-header">
                             Welcome to Admin
                             <small>Subheading</small>

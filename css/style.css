@@ -28,10 +28,14 @@ a.action-danger {
     text-transform: capitalize;
 }
 
+
 /* ******* */
 /* Utility */
 /* ******* */
 
+.d-none {
+    display: none;
+}
 .d-inline {
     display: inline;
 }
@@ -41,11 +45,16 @@ a.action-danger {
 .d-inline-block {
     display: inline-block;
 }
-
 .full-width {
     width: 100%;
 }
-
+.clearfix {
+    display: block;
+    clear: both;
+}
+.has-pointer {
+    cursor: pointer;
+}
 .pl-15 {
     padding-left: 15px;
 }

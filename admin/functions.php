@@ -208,7 +208,7 @@
         
         $sql = "UPDATE comments SET comment_status = '$comment_status' WHERE comment_id = '$comment_id'";
         $change_status = mysqli_query($connection, $sql);
-        validateQuery($change_status);
+        validateQuery($change_status);        
     }
 
 
@@ -313,12 +313,13 @@
                 $sql = "UPDATE users SET user_password = '$new_password' WHERE user_id = '$user_id'";
                 $update_password = mysqli_query($connection, $sql);
                 validateQuery($update_password);
+                return true;
             } else {
-                $showValidation = true;
+                return false;
             }
         }
     }
-    
+
 
 
     /* UTILITY
