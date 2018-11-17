@@ -47,6 +47,10 @@
 
     <!-- Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <!-- Tiny MCE -->
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script src="js/scripts.js"></script>
 
 </head>
 

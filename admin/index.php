@@ -9,6 +9,14 @@
     }
     $draft_posts_count = mysqli_num_rows($select_draft_posts);
 
+    // Get number of published posts to display on chart.
+    $sql = "SELECT * FROM posts WHERE post_status = 'published'";
+    $select_published_posts = mysqli_query($connection, $sql);
+    if(!$select_published_posts) {
+        die("QUERY FAILED. " . mysqli_error($connection));
+    }
+    $published_posts_count = mysqli_num_rows($select_published_posts);
+
     // Get number of subscribers to display on chart.
     $sql = "SELECT * FROM users WHERE user_role = 'subscriber'";
     $select_user_roles = mysqli_query($connection, $sql);
@@ -69,9 +77,9 @@
                                 var data = google.visualization.arrayToDataTable([
                                 ['Year', 'Count'],
                                 <?php
-                                    $element_text = ['Active Posts', 'Draft Posts', 'Categories', 'Users', 'Subscribers', 'Comments', 'Pending Comments'];
-                                    $element_count = [$post_count, $draft_posts_count, $category_count, $user_count, $subscriber_count, $comment_count, $unapproved_comment_count];
-                                    for ($i = 0; $i < 7; $i++) {
+                                    $element_text = ['All Posts', 'Active Posts', 'Draft Posts', 'Categories', 'Users', 'Subscribers', 'Comments', 'Pending Comments'];
+                                    $element_count = [$post_count, $published_posts_count, $draft_posts_count, $category_count, $user_count, $subscriber_count, $comment_count, $unapproved_comment_count];
+                                    for ($i = 0; $i < 8; $i++) {
                                         echo "['{$element_text[$i]}', {$element_count[$i]}],";
                                         // JS Output: ['Active Posts', 120]. ['Categories', 12],
                                     }
