@@ -1,5 +1,30 @@
 <?php include "./includes/admin_header.php"; ?>
 <?php include "./includes/widget.php" ?>
+<?php
+    // Get number of draft posts to display on chart.
+    $sql = "SELECT * FROM posts WHERE post_status = 'draft'";
+    $select_draft_posts = mysqli_query($connection, $sql);
+    if(!$select_draft_posts) {
+        die("QUERY FAILED. " . mysqli_error($connection));
+    }
+    $draft_posts_count = mysqli_num_rows($select_draft_posts);
+
+    // Get number of subscribers to display on chart.
+    $sql = "SELECT * FROM users WHERE user_role = 'subscriber'";
+    $select_user_roles = mysqli_query($connection, $sql);
+    if(!$select_user_roles) {
+        die("QUERY FAILED. " . mysqli_error($connection));
+    }
+    $subscriber_count = mysqli_num_rows($select_user_roles);
+
+    // Get number of unapproved comments to display on chart.
+    $sql = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
+    $select_unapproved_comments = mysqli_query($connection, $sql);
+    if(!$select_unapproved_comments) {
+        die("QUERY FAILED. " . mysqli_error($connection));
+    }
+    $unapproved_comment_count = mysqli_num_rows($select_unapproved_comments);
+?>
 
     <div id="wrapper">
 
@@ -44,9 +69,9 @@
                                 var data = google.visualization.arrayToDataTable([
                                 ['Year', 'Count'],
                                 <?php
-                                    $element_text = ['Active Posts', 'Categories', 'Users', 'Comments'];
-                                    $element_count = [$post_count, $category_count, $user_count, $comment_count];
-                                    for ($i = 0; $i < 4; $i++) {
+                                    $element_text = ['Active Posts', 'Draft Posts', 'Categories', 'Users', 'Subscribers', 'Comments', 'Pending Comments'];
+                                    $element_count = [$post_count, $draft_posts_count, $category_count, $user_count, $subscriber_count, $comment_count, $unapproved_comment_count];
+                                    for ($i = 0; $i < 7; $i++) {
                                         echo "['{$element_text[$i]}', {$element_count[$i]}],";
                                         // JS Output: ['Active Posts', 120]. ['Categories', 12],
                                     }
