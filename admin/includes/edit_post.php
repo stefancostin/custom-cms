@@ -1,4 +1,8 @@
 <?php 
+    $showAlert = false;
+    include "includes/alert.php";
+?>
+<?php 
     // Displaying the post selected to de edited.
     //
     // We first pass the id through a $_GET request,
@@ -61,22 +65,30 @@
             $post_image = $image_address['post_image'];
         }
 
-        // die($post_status);
-
         // Query to DB
         $sql = "UPDATE posts SET post_category_id = '$post_category_id', post_title = '$post_title', post_author = '$post_author', post_date = now(), post_image = '$post_image', post_content = '$post_content', post_tags = '$post_tags', post_comment_count = $post_comment_count, post_status = '$post_status' WHERE post_id = $post_id";
-
         $update_post = mysqli_query($connection, $sql);
 
         // Validate Query
         validateQuery($update_post);
 
         // Redirect
-        header("Location: posts.php");
+        // header("Location: posts.php");
+
+        if($update_post) {
+            $showAlert = true;
+        }
     }
 ?>
 <div class="row">
     <div class="col-sm-6">
+        <!-- Success Alert -->
+        <?php 
+            if($showAlert) {
+                $moreContent = "<a href='../post.php?p_id=" . $post_id . "'>View Post</a> or <a href='posts.php'>Edit More</a>";
+                displaySuccessAlert("Post updated", $moreContent); 
+            }
+        ?>
         <form action="" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="post_title">Post Title</label>

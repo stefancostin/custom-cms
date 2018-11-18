@@ -24,15 +24,15 @@
                 <li>
                     <a href="admin">Admin</a>
                 </li>
-                <!-- <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li> -->
+                <?php
+                    if(isset($_SESSION['role'])) {
+                        if(isset($_GET['p_id'])) { ?>
+                            <li>
+                                <a href="admin/posts.php?source=edit_post&edit= <?= $_GET['p_id'] ?>">Edit Post</a>
+                            </li>
+                        <?php }
+                    }
+                ?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

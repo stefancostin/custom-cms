@@ -74,6 +74,7 @@
         while ($record = mysqli_fetch_assoc($selected_posts)) { 
         ?>
             <tr>
+                <td><input type="checkbox" class="checkbox" name="checkboxArray[]" value="<?= $record['post_id'] ?>"></td>
                 <td><?= $record['post_id'] ?></td>
                 <td><?= $record['post_author'] ?></td>
                 <td><?= $record['post_title'] ?></td>
@@ -118,6 +119,49 @@
             $publish_post = mysqli_query($connection, $sql);
             validateQuery($publish_post);
         } 
+    }
+
+    function bulkAction() {
+        global $connection;
+
+        if(isset($_POST['checkboxArray']) && isset($_POST['bulk_options'])) {
+            $bulk_options = $_POST['bulk_options'];
+            switch($bulk_options) {
+                case 'published':
+                    // Preparing sql query statement for bulk action
+                    $post_id_list = prepareBulkQueryStatement($_POST['checkboxArray']);
+                    // Executing query for bulk publish posts
+                    $publish_sql = "UPDATE posts SET post_status = 'published' WHERE post_id IN (" . $post_id_list .  ")";
+                    $publish_post = mysqli_query($connection, $publish_sql);
+                    validateQuery($publish_post);
+                    break;
+                case 'draft':
+                    // Preparing sql query statement for bulk action
+                    $post_id_list = prepareBulkQueryStatement($_POST['checkboxArray']);
+                    // Executing query for bulk draft posts
+                    $draft_sql = "UPDATE posts SET post_status = 'draft' WHERE post_id IN (" . $post_id_list .  ")";
+                    $draft_post = mysqli_query($connection, $draft_sql);
+                    validateQuery($draft_post);
+                    break;
+                case 'delete':
+                    // Preparing sql query statement for bulk action
+                    $post_id_list = prepareBulkQueryStatement($_POST['checkboxArray']);
+                    // Executing query for bulk draft posts
+                    $delete_sql = "DELETE FROM posts WHERE post_id IN (" . $post_id_list .  ")";
+                    $delete_post = mysqli_query($connection, $delete_sql);
+                    validateQuery($delete_post);
+                    break;
+            }
+        }
+    }
+
+    function prepareBulkQueryStatement($checkboxArray) {
+        $post_id_list = "";
+        foreach($checkboxArray as $checkboxValue) {
+            $post_id_list .= $checkboxValue . ", "; 
+        }
+        $post_id_list = substr($post_id_list, 0, -2);
+        return $post_id_list;
     }
 
 

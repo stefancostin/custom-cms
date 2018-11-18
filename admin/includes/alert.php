@@ -1,9 +1,15 @@
 <?php
 // appears based on a boolean
-function displaySuccessAlert($alertContent) { ?>
+function displaySuccessAlert($alertContent, $auxContent = "") { ?>
     <div class="alert alert-success">
         <span class="pull-left full-width">
-            <strong><?= $alertContent ?></strong> succesfully. <span class="pull-right has-pointer">Close</span>
+            <strong><?= $alertContent ?></strong> succesfully. 
+            <?php
+                if($auxContent) { ?>
+                    <span><?= $auxContent ?></span>
+                <?php }
+            ?> 
+            <span class="pull-right has-pointer">Close</span>
         </span>
         <span class="clearfix">
     </div>

@@ -16,7 +16,7 @@
         $postImage = $post_details['post_image'];
         $postTitle = $post_details['post_title'];
     } else {
-        // Default Case: 
+        // Default (Edge Case): 
         // 
         // When you type in the url: */post.php,
         // the first ever post will be displayed as a default.

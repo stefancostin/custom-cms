@@ -6,13 +6,6 @@
     include "includes/alert.php";
 ?>
 <?php $showPasswordAlert = changePassword(); ?>
-<?php 
-    if($showPasswordAlert) {
-        echo "<h1> Este: True </h1>"; 
-    } else {
-        echo "<h1> Este: False </h1>";
-    }
-?>
 <?php
     if(isset($_SESSION['username'])) {
         $username = $_SESSION['username'];
