@@ -289,7 +289,7 @@
                     <td class="text-gray">To Subscriber</td>
                 <?php } ?>
 
-                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>">Edit</a></td>                
+                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>" onClick="confirmAction()">Edit</a></td>                
                 <td><a href="?delete=<?=$record['user_id']?>" class="action-danger">Delete</a></td>
             </tr>        
         <?php

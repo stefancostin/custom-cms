@@ -6,9 +6,11 @@
     // Block Admin Panel for Non-Admins
     if(isset($_SESSION['role'])) {
         if($_SESSION['role'] !== 'admin') {
+            $_SESSION['userRoleValidation'] = true;
             header("Location: ../index.php");
         }
     } else {
+        // Redirect "subscribers" to index.php
         header("Location: ../index.php");
     }
 ?>

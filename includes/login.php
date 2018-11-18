@@ -16,6 +16,7 @@ if(isset($_POST['login'])) {
     if(!$get_user) {
         die("QUERY FAILED. " . mysqli_error($connection));
     }
+
     // Getting data of user from DB.
     $result = mysqli_fetch_assoc($get_user);
     $db_password = $result['user_password'];
@@ -31,6 +32,7 @@ if(isset($_POST['login'])) {
         $_SESSION['lastname'] = $db_lastname;
         $_SESSION['role'] = $db_role;
         $_SESSION['credentialValidation'] = false;
+        $_SESSION['userRoleValidation'] = false;
         header("Location: ../admin/");
     } else {
         $_SESSION['credentialValidation'] = true;

@@ -43,19 +43,25 @@
             </div>
             <?php 
                 $credentialError = '';
+                $userRoleValidation = '';
                 if(isset($_SESSION['credentialValidation'])) {                    
                     if($_SESSION['credentialValidation'] === true) {
-                        $credentialError = "Invalid credentials";
+                        $credentialError = "Invalid credentials.";
+                    } elseif($_SESSION['userRoleValidation'] === true) {
+                        $userRoleValidation = "Welcome " . $_SESSION['username'] . "! (user)";
                     } else {
                         $credentialError = '';
+                        $userRoleValidation = '';
                     }
                 }
             ?>
             <p class="action-danger"> <?= $credentialError ?> </p>
+            <p class="text-gray"> <?= $userRoleValidation ?> </p>
             <?php 
                 // Reset credential validation after changing page
                 // in order to get rid of permanent credential error.
                 $_SESSION['credentialValidation'] = false; 
+                $_SESSION['userRoleValidation'] = false; 
             ?>
         </form>
     </div>
@@ -93,6 +99,6 @@
     </div>
 
     <!-- Side Widget Well -->
-    <?php include "widget.html"; ?>
+    <?php include "widget.php"; ?>
 
 </div>

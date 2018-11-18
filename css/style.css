@@ -17,6 +17,9 @@ a.action-danger {
 .text-gray {
     color: #aaaaaa;
 }
+.text-dark {
+    color: #444444;
+}
 .weight-normal {
     font-weight: normal;
 }
