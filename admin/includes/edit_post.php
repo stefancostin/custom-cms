@@ -75,6 +75,7 @@
         // Redirect
         // header("Location: posts.php");
 
+        // Show alert
         if($update_post) {
             $showAlert = true;
         }

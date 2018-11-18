@@ -1,4 +1,8 @@
 <?php 
+    $showAlert = false;
+    include "includes/alert.php";
+?>
+<?php 
     if(isset($_POST['create_post'])) {
         // Deconstructing Post Superglobal.
         $post_title = $_POST['post_title'];
@@ -23,10 +27,24 @@
 
         // Validate Query
         validateQuery($create_post);
+
+        // Show alert
+        if($create_post) {
+            // Extract the last created id.
+            $last_post_id = mysqli_insert_id($connection);
+            $showAlert = true;
+        }
     }
 ?>
 <div class="row">
     <div class="col-sm-6">
+        <!-- Success Alert -->
+        <?php 
+            if($showAlert) {
+                $moreContent = "<a href='../post.php?p_id=" . $last_post_id . "'>View Post</a> or <a href='posts.php'>Edit More</a>";
+                displaySuccessAlert("Post created", $moreContent); 
+            }
+        ?>
         <form action="" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="post_title">Post Title</label>

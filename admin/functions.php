@@ -85,6 +85,7 @@
                 <td><?= $record['post_comment_count'] ?></td>
                 <td>1<?= $record['post_date'] ?></td>
                 <!-- Actions -->
+                <td><a href="../post.php?p_id=<?=$record['post_id']?>">View</a></td>
                 <?php if($record['post_status'] !== 'published') { ?>
                     <td><a href="?publish=<?=$record['post_id']?>">Publish</a></td>
                 <?php } else { ?>

@@ -30,6 +30,7 @@
                 <th>Comments</th>
                 <th>Date</th>
                 <!-- Actions -->
+                <th>View</th>
                 <th>Publish</th>
                 <th>Edit</th>
                 <th>Delete</th>

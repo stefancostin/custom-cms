@@ -13,6 +13,10 @@ $(document).ready(function() {
                 this.checked = false;
             });
         }
+    });
 
+    // Alert interaction
+    $('.pull-right.has-pointer').click(function() {
+        $('.alert').addClass('d-none');
     });
 });

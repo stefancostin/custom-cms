@@ -1,5 +1,5 @@
 <?php
-// appears based on a boolean
+// Success alert displays based on a boolean
 function displaySuccessAlert($alertContent, $auxContent = "") { ?>
     <div class="alert alert-success">
         <span class="pull-left full-width">
@@ -13,10 +13,19 @@ function displaySuccessAlert($alertContent, $auxContent = "") { ?>
         </span>
         <span class="clearfix">
     </div>
-    <script src="js/jquery.js"></script>
-    <script type="text/javascript">
-        $('.pull-right.has-pointer').click(function() {
-            $('.alert').addClass('d-none');
-        });
-    </script>
+<?php } 
+// Error alert displays based on a boolean
+function displayErrorAlert($alertContent, $auxContent = "") { ?>
+    <div class="alert alert-danger">
+        <span class="pull-left full-width">
+            <strong><?= $alertContent ?></strong> failed. 
+            <?php
+                if($auxContent) { ?>
+                    <span><?= $auxContent ?></span>
+                <?php }
+            ?> 
+            <span class="pull-right has-pointer">Close</span>
+        </span>
+        <span class="clearfix">
+    </div>
 <?php } ?>
