@@ -19,4 +19,9 @@ $(document).ready(function() {
     $('.pull-right.has-pointer').click(function() {
         $('.alert').addClass('d-none');
     });
+
+    // Confirm to delete
+    $('.confirm-delete').click(function() {
+        return confirm("Are you sure you want to delete this?");
+    });
 });

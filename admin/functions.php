@@ -92,7 +92,7 @@
                     <td class="text-gray">Publish</td>                    
                 <?php } ?>
                 <td><a href="?source=edit_post&edit=<?=$record['post_id']?>">Edit</a></td>
-                <td><a href="?delete=<?=$record['post_id']?>" class="action-danger">Delete</a></td>
+                <td><a href="?delete=<?=$record['post_id']?>" class="action-danger confirm-delete">Delete</a></td>
             </tr>        
         <?php
         }
@@ -203,7 +203,7 @@
                 <?php if($record['comment_status'] === 'unapprove') { ?>
                     <td class="text-gray">Unapprove</td>
                 <?php } else { ?>
-                    <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger">Unapprove</a></td>
+                    <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger confirm-delete">Unapprove</a></td>
                 <?php } ?>
                 <!-- Delete -->
                 <td><a href="?delete= <?= $record['comment_id'] ?> & post_id= <?= $record['comment_post_id'] ?>" class="action-danger">Delete</a></td>
@@ -289,8 +289,8 @@
                     <td class="text-gray">To Subscriber</td>
                 <?php } ?>
 
-                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>" onClick="confirmAction()">Edit</a></td>                
-                <td><a href="?delete=<?=$record['user_id']?>" class="action-danger">Delete</a></td>
+                <td><a href="?source=edit_user&edit=<?=$record['user_id']?>">Edit</a></td>                
+                <td><a href="?delete=<?=$record['user_id']?>" class="action-danger confirm-delete">Delete</a></td>
             </tr>        
         <?php
         }
@@ -391,3 +391,4 @@
     }
 
 ?>
+
