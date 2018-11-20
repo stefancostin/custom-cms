@@ -45,7 +45,7 @@
                                 <a href="post.php?p_id= <?= $postId ?> "><?= $postTitle ?></a>
                             </h2>
                             <p class="lead">
-                                by <a href="index.php"><?= $postAuthor ?></a>
+                                by <a href="author.php?author=<?= $postAuthor ?>"><?= $postAuthor ?></a>
                             </p>
                             <p><span class="glyphicon glyphicon-time"></span> Posted on <?= $postDate ?> </p>
                             <hr>
