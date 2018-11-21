@@ -4,37 +4,31 @@
 <?php 
     if(isset($_GET['p_id'])) {
         $post_id = $_GET['p_id'];
+
+        // Increment post views count
+        $views_count = "UPDATE posts SET post_views_count = post_views_count + 1 WHERE post_id = $post_id";
+        $increment_views_count = mysqli_query($connection, $views_count);
+
+        // Get post data
+        $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
+        $get_post = mysqli_query($connection, $sql);
+
+        $post_details = mysqli_fetch_assoc($get_post);
         
-        $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
-        $get_post = mysqli_query($connection, $sql);
-
-        $post_details = mysqli_fetch_assoc($get_post); 
-        $postId = $post_details['post_id'];
-        $postAuthor = $post_details['post_author'];
-        $postContent = $post_details['post_content'];
-        $postDate = $post_details['post_date'];
-        $postImage = $post_details['post_image'];
-        $postTitle = $post_details['post_title'];
+        // Check if record with this post_id exists
+        // If record doesn't exist, redirect to index.php
+        if($post_details['post_id'] >= 1) {
+            $postId = $post_details['post_id'];
+            $postAuthor = $post_details['post_author'];
+            $postContent = $post_details['post_content'];
+            $postDate = $post_details['post_date'];
+            $postImage = $post_details['post_image'];
+            $postTitle = $post_details['post_title'];
+        } else {
+            header("Location: index.php");
+        }
     } else {
-        // Default (Edge Case): 
-        // 
-        // When you type in the url: */post.php,
-        // the first ever post will be displayed as a default.
-        // We initialize the $post_id to "1" (first post),
-        // so the add-comment section will know where to post the comments.
-
-        $post_id = 1;
-
-        $sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
-        $get_post = mysqli_query($connection, $sql);
-
-        $post_details = mysqli_fetch_assoc($get_post); 
-        $postId = $post_details['post_id'];
-        $postAuthor = $post_details['post_author'];
-        $postContent = $post_details['post_content'];
-        $postDate = $post_details['post_date'];
-        $postImage = $post_details['post_image'];
-        $postTitle = $post_details['post_title'];
+        header("Location: index.php");
     }
 ?>
 
@@ -69,8 +63,8 @@
                 <hr>
 
                 <!-- Post Content -->
-                <p class="lead"><?= $postContent ?></p>
-                <p><?= $postContent ?></p>
+                <div class="lead"><?= $postContent ?></div>
+                <div class="body"><?= $postContent ?></div>
 
                 <hr>
 

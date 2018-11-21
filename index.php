@@ -1,5 +1,20 @@
 <?php include "./includes/db.php"; ?>
 <?php include "./includes/header.php" ?>
+<?php
+    // Pagination
+    $per_page = 5;
+    if(isset($_GET['page'])) {
+        $page = $_GET['page'];
+        if($page == "") {
+            $post = 0;
+        } else {
+            $post = $per_page * ($page - 1);
+        }
+    } else {
+        $page = 1;
+        $post = 0;
+    }
+?>
 
     <!-- Navigation -->
     <?php include "./includes/navigation.php" ?>
@@ -17,10 +32,19 @@
                     <small>Secondary Text</small>
                 </h1>
 
+                <!-- Pagination - Getting total nubmer of published posts -->
+                <?php
+                    $sql = "SELECT * FROM posts WHERE post_status = 'published'";
+                    $get_number_of_posts = mysqli_query($connection, $sql);
+                    $post_count = mysqli_num_rows($get_number_of_posts);
+                    // Establishing number of pages (page_count)
+                    $page_count = ceil($post_count / $per_page);
+                ?>
+
                 <!-- Looped Blog Post -- Logic -->
                 <?php
                     $publishedCounter = 0; 
-                    $sql = "SELECT * FROM posts";
+                    $sql = "SELECT * FROM posts LIMIT $post, $per_page";
                     $result = mysqli_query($connection, $sql);
                     
                     while ($record = mysqli_fetch_assoc($result)) {
@@ -65,12 +89,44 @@
 
                 <!-- Pager -->
                 <ul class="pager">
-                    <li class="previous">
-                        <a href="#">&larr; Older</a>
-                    </li>
-                    <li class="next">
-                        <a href="#">Newer &rarr;</a>
-                    </li>
+                    <!-- Previous Page -->
+                    <?php 
+                        if($page > 1) { ?>
+                            <li class="previous">
+                                <a href="index.php?page=<?=$page - 1?>">&larr; Older</a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="previous">
+                                <a class="disabled">&larr; Older</a>
+                            </li>
+                        <?php }
+                    ?>
+                    <!-- Page Counter -->
+                    <?php
+                        for($i = 1; $i <= $page_count; $i++) {
+                            if($i == $page) { ?>
+                                <li>
+                                    <a href="index.php?page=<?=$i?>" class="active"><?= $i ?></a>
+                                </li>
+                            <?php } else { ?>
+                                <li>
+                                    <a href="index.php?page=<?=$i?>"><?= $i ?></a>
+                                </li>
+                        <?php }
+                        }
+                    ?>
+                    <!-- Next Page -->
+                    <?php 
+                        if($page < $page_count) { ?>
+                            <li class="next">
+                                <a href="index.php?page=<?=$page + 1?>">Newer &rarr;</a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="next">
+                                <a class="disabled">Newer &rarr;</a>
+                            </li>
+                        <?php }
+                    ?>
                 </ul>
 
             </div>

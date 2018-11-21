@@ -9,6 +9,8 @@
                 <option value="">Select Options</option>
                 <option value="published">Publish</option>
                 <option value="draft">Draft</option>
+                <option value="clone">Clone</option>
+                <option value="reset">Reset Views</option>
                 <option value="delete">Delete</option>
             </select>
             <input type="submit" name="submit" class="btn btn-success ml-5" value="Apply">
@@ -29,6 +31,7 @@
                 <th>Tags</th>
                 <th>Comments</th>
                 <th>Date</th>
+                <th>Views</th>
                 <!-- Actions -->
                 <th>View</th>
                 <th>Publish</th>

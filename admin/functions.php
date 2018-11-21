@@ -67,7 +67,7 @@
     function showAllPosts() {
         global $connection;
 
-        $sql = "SELECT * FROM posts ORDER BY FIELD (post_status, 'draft', 'published')";
+        $sql = "SELECT * FROM posts ORDER BY FIELD (post_status, 'draft', 'published'), post_id DESC";
         $selected_posts = mysqli_query($connection, $sql);
         validateQuery($selected_posts);
 
@@ -83,7 +83,8 @@
                 <td><img src="../images/<?=$record['post_image']?>" class="img-responsive"></td>
                 <td><?= $record['post_tags'] ?></td>
                 <td><?= $record['post_comment_count'] ?></td>
-                <td>1<?= $record['post_date'] ?></td>
+                <td><?= $record['post_date'] ?></td>
+                <td><?= $record['post_views_count'] ?></td>
                 <!-- Actions -->
                 <td><a href="../post.php?p_id=<?=$record['post_id']?>">View</a></td>
                 <?php if($record['post_status'] !== 'published') { ?>
@@ -144,6 +145,14 @@
                     $draft_post = mysqli_query($connection, $draft_sql);
                     validateQuery($draft_post);
                     break;
+                case 'reset':
+                    // Preparing sql query statement for bulk action
+                    $post_id_list = prepareBulkQueryStatement($_POST['checkboxArray']);
+                    // Executing query for bulk draft posts
+                    $delete_sql = "UPDATE posts SET post_views_count = 0 WHERE post_id IN (" . $post_id_list .  ")";
+                    $delete_post = mysqli_query($connection, $delete_sql);
+                    validateQuery($delete_post);
+                    break;
                 case 'delete':
                     // Preparing sql query statement for bulk action
                     $post_id_list = prepareBulkQueryStatement($_POST['checkboxArray']);
@@ -151,6 +160,26 @@
                     $delete_sql = "DELETE FROM posts WHERE post_id IN (" . $post_id_list .  ")";
                     $delete_post = mysqli_query($connection, $delete_sql);
                     validateQuery($delete_post);
+                    break;
+                case 'clone':
+                    foreach($_POST['checkboxArray'] as $post_id) {
+                        // Getting post information for each post that needs to be cloned
+                        $get_sql = "SELECT * FROM posts WHERE post_id = '$post_id'";
+                        $get_post =  mysqli_query($connection, $get_sql);
+                        validateQuery($get_post);
+                        $record = mysqli_fetch_assoc($get_post);
+                        $post_author = mysqli_real_escape_string($connection, $record['post_author']);
+                        $post_category_id = mysqli_real_escape_string($connection, $record['post_category_id']);
+                        $post_content = mysqli_real_escape_string($connection, $record['post_content']);
+                        $post_image = mysqli_real_escape_string($connection, $record['post_image']);
+                        $post_status = mysqli_real_escape_string($connection, $record['post_status']);
+                        $post_tags = mysqli_real_escape_string($connection, $record['post_tags']);
+                        $post_title = mysqli_real_escape_string($connection, $record['post_title']);
+                        // Cloning each and avery post step by step.
+                        $clone_sql = "INSERT INTO posts (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ($post_category_id, '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', '$post_status')";
+                        $clone_post = mysqli_query($connection, $clone_sql);
+                        validateQuery($clone_post);
+                    }
                     break;
             }
         }
