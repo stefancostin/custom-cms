@@ -62,6 +62,19 @@
         }
     }
 
+    function getCategoryById($category_id) {
+        global $connection;
+
+        $sql = "SELECT * FROM categories WHERE cat_id = '$category_id'";
+        $get_category_by_id = mysqli_query($connection, $sql);
+        validateQuery($get_category_by_id);
+
+        $selected_category = mysqli_fetch_assoc($get_category_by_id);
+
+        $category_title = $selected_category['cat_title'];
+        return $category_title;
+    }
+
     /* POSTS
      * =================================================== */
     function showAllPosts() {
@@ -406,17 +419,29 @@
         }
     }
 
-    function getCategoryById($category_id) {
+    function usersOnline() {
         global $connection;
 
-        $sql = "SELECT * FROM categories WHERE cat_id = '$category_id'";
-        $get_category_by_id = mysqli_query($connection, $sql);
-        validateQuery($get_category_by_id);
+        $session = session_id();
+        $time = time();
+        $time_out = $time - 60;
+        
+        // Checking how many users are online at the moment.
+        $sql = "SELECT * FROM users_online WHERE session = '$session'";
+        $get_online_users = mysqli_query($connection, $sql);
+        $online_user_count = mysqli_num_rows($get_online_users);
 
-        $selected_category = mysqli_fetch_assoc($get_category_by_id);
+        if($online_user_count == NULL) {
+            mysqli_query($connection, "INSERT INTO users_online (session, time) VALUES ('$session', '$time')");
+        } else {
+            mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
+        }
 
-        $category_title = $selected_category['cat_title'];
-        return $category_title;
+        // Doesn't count the other users (except yourself) that have been inactive in the past minute.
+        $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
+        $count_online_users = mysqli_num_rows($users_online_query);
+
+        return $count_online_users;
     }
 
 ?>

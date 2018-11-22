@@ -152,3 +152,16 @@ a.action-danger {
     background-color: #f6f6f6;
     border-color: #d4d4d4;
 }
+
+.navbar-count {
+    color: #777777;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    margin-left: 80px;
+}
+@media only screen and (max-width: 767px) {
+    .navbar-count {
+        margin-left: 15px;
+    }
+}

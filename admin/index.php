@@ -52,6 +52,7 @@
                                 <small class="to-capitalized"><?= $_SESSION['firstname'] ?></small>
                             <?php } ?>
                         </h1>
+
                         <!-- Widgets -->
                         <?php $post_count = showPostsCard(); ?>
                         <?php $category_count = showCommentsCard(); ?>
