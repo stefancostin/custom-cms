@@ -1,4 +1,5 @@
 <?php include "./includes/admin_header.php"; ?>
+<?php include "./functions.php" ?>
 <?php include "./includes/widget.php" ?>
 <?php
     // Get number of draft posts to display on chart.

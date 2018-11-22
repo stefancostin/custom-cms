@@ -242,10 +242,10 @@
                     <td><a href="?approve= <?= $record['comment_id'] ?>">Approve</a></td>
                 <?php } ?>
                 <!-- Unapprove -->
-                <?php if($record['comment_status'] === 'unapprove') { ?>
+                <?php if($record['comment_status'] === 'unapproved') { ?>
                     <td class="text-gray">Unapprove</td>
                 <?php } else { ?>
-                    <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger confirm-delete">Unapprove</a></td>
+                    <td><a href="?unapprove= <?= $record['comment_id'] ?>" class="action-danger">Unapprove</a></td>
                 <?php } ?>
                 <!-- Delete -->
                 <td><a href="?delete= <?= $record['comment_id'] ?> & post_id= <?= $record['comment_post_id'] ?>" class="action-danger">Delete</a></td>
