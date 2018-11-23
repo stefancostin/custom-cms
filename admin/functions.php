@@ -8,7 +8,7 @@
         $input_empty_error = "";
 
         if(isset($_POST['submit'])) {
-            $category_title = $_POST['cat_title'];
+            $category_title = mysqli_real_escape_string($connection, $_POST['cat_title']);
     
             if($category_title == "" || empty($category_title)) {
                 $input_empty_error = "This field should not be empty.";
@@ -37,11 +37,11 @@
         global $edit_category_title;
 
         if(isset($_GET['edit_id']) && isset($_GET['edit_title'])) {
-            $edit_category_id = $_GET['edit_id'];
-            $edit_category_title = $_GET['edit_title'];
+            $edit_category_id = mysqli_real_escape_string($connection, $_GET['edit_id']);
+            $edit_category_title = mysqli_real_escape_string($connection, $_GET['edit_title']);
     
             if(isset($_POST['edit'])) {
-                $update_category = $_POST['update_category'];
+                $update_category = mysqli_real_escape_string($connection, $_POST['update_category']);
                 $sql = "UPDATE categories SET cat_title = '$update_category' WHERE cat_id = '$edit_category_id'";
                 $edit_category = mysqli_query($connection, $sql);
                 // Refresh the page:
@@ -54,11 +54,13 @@
         global $connection;
 
         if(isset($_GET['delete'])) {
-            $category_id = $_GET['delete'];
-            $sql = "DELETE FROM categories WHERE cat_id = '$category_id'";
-            $delete_category = mysqli_query($connection, $sql);
-            // Refresh the page:
-            header("Location: categories.php");
+            if(isset($_SESSION['role']) && $_SESSION['role'] === "admin") {
+                $category_id = mysqli_real_escape_string($connection, $_GET['delete']);
+                $sql = "DELETE FROM categories WHERE cat_id = '$category_id'";
+                $delete_category = mysqli_query($connection, $sql);
+                // Refresh the page:
+                header("Location: categories.php");
+            }
         }
     }
 
@@ -116,11 +118,13 @@
         global $connection;
 
         if(isset($_GET['delete'])) {
-            $post_id = $_GET['delete'];
-
-            $sql = "DELETE FROM posts WHERE post_id = '$post_id'";
-            $delete_post = mysqli_query($connection, $sql);
-            validateQuery($delete_post);
+            if(isset($_SESSION['role']) && $_SESSION['role'] === "admin") {
+                $post_id = mysqli_real_escape_string($connection, $_GET['delete']);
+    
+                $sql = "DELETE FROM posts WHERE post_id = '$post_id'";
+                $delete_post = mysqli_query($connection, $sql);
+                validateQuery($delete_post);
+            }
         }
     }
 
@@ -199,12 +203,14 @@
     }
 
     function prepareBulkQueryStatement($checkboxArray) {
+        global $connection;
+
         $post_id_list = "";
         foreach($checkboxArray as $checkboxValue) {
             $post_id_list .= $checkboxValue . ", "; 
         }
         $post_id_list = substr($post_id_list, 0, -2);
-        return $post_id_list;
+        return mysqli_real_escape_string($connection, $post_id_list);
     }
 
 
@@ -258,20 +264,22 @@
         global $connection;
 
         if(isset($_GET['delete'])) {
-            $comment_id = $_GET['delete'];
+            if(isset($_SESSION['role']) && $_SESSION['role'] === "admin") {
+                $comment_id = mysqli_real_escape_string($connection, $_GET['delete']);
 
-            $sql = "DELETE FROM comments WHERE comment_id = '$comment_id'";
-            $delete_comment = mysqli_query($connection, $sql);
-            validateQuery($delete_comment);
+                $sql = "DELETE FROM comments WHERE comment_id = '$comment_id'";
+                $delete_comment = mysqli_query($connection, $sql);
+                validateQuery($delete_comment);
 
-            
-            // We also need to de-increment post_comment_count,
-            // or the number of comments per post, stored in the 'posts' table.
-            $comment_post_id = $_GET['post_id'];
+                
+                // We also need to de-increment post_comment_count,
+                // or the number of comments per post, stored in the 'posts' table.
+                $comment_post_id = $_GET['post_id'];
 
-            $sql = "UPDATE posts SET post_comment_count = post_comment_count - 1 WHERE post_id = $comment_post_id";
-            $deincrement_post_comment_count = mysqli_query($connection, $sql);
-            validateQuery($deincrement_post_comment_count);
+                $sql = "UPDATE posts SET post_comment_count = post_comment_count - 1 WHERE post_id = $comment_post_id";
+                $deincrement_post_comment_count = mysqli_query($connection, $sql);
+                validateQuery($deincrement_post_comment_count);
+            }
         }
     }
 
@@ -342,11 +350,13 @@
         global $connection;
 
         if(isset($_GET['delete'])) {
-            $user_id = $_GET['delete'];
-
-            $sql = "DELETE FROM users WHERE user_id = '$user_id'";
-            $delete_user = mysqli_query($connection, $sql);
-            validateQuery($delete_user);
+            if(isset($_SESSION['role']) && $_SESSION['role'] === "admin") {
+                $user_id = mysqli_real_escape_string($connection, $_GET['delete']);
+    
+                $sql = "DELETE FROM users WHERE user_id = '$user_id'";
+                $delete_user = mysqli_query($connection, $sql);
+                validateQuery($delete_user);
+            }
         }
     }
 
@@ -380,16 +390,14 @@
         global $connection;
 
         if(isset($_POST['change_password'])) {
-            $current_password = $_POST['current_password'];
-            $new_password = $_POST['new_password'];
-            $confirm_password = $_POST['confirm_password'];
-            $username = $_SESSION['username'];
+            $current_password = mysqli_real_escape_string($connection, $_POST['current_password']);
+            $new_password = mysqli_real_escape_string($connection, $_POST['new_password']);
+            $confirm_password = mysqli_real_escape_string($connection, $_POST['confirm_password']);
+            $username = mysqli_real_escape_string($connection, $_SESSION['username']);
 
             $sql = "SELECT * FROM users WHERE user_username = '$username'";
             $get_user = mysqli_query($connection, $sql);
-            if(!$get_user) {
-                die("QUERY FAILED. " . mysqli_error($connection));
-            }
+            validateQuery($get_user);
 
             $user_data = mysqli_fetch_assoc($get_user);
             $user_id = $user_data['user_id'];

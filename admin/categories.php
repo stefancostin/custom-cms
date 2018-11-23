@@ -61,7 +61,7 @@
                                         <td><?= $record['cat_id'] ?></td>
                                         <td><?= $record['cat_title'] ?></td>
                                         <td><a href="categories.php?edit_id= <?= $record['cat_id'] ?> &edit_title= <?= $record['cat_title'] ?>">Edit</a></td>
-                                        <td><a href="categories.php?delete= <?= $record['cat_id'] ?>" class="action-danger">Delete</a></td>
+                                        <td><a href="categories.php?delete= <?= $record['cat_id'] ?>" class="action-danger confirm-delete">Delete</a></td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
